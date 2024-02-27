@@ -32,27 +32,19 @@ const MainPage = () => {
     const [userIdVal, setUserIdVal] = useState('');
     
     function selectMediaType (val) {
-        console.log("value",val);
         setInitialImage(val);
     }
 
     function selectedType(val) {
-        console.log('val11111',val)
-        console.log('initialImage1111',initialImage);
-        // setInitialImage(val.state.type);
         setOpen(val.state.popupOpen)
-        // if(initialImage == 'linkedin') {
-            setProfile(val.state.data.picture);
-            setName(val.state.data.name);
-            setEmail(val.state.data.email);
-            setUser(val.state.data.sub);
-            setMemberId(val.state.data.member_id);
-            setauthentication(val.state.oauth);
-        // }
-        
+        setProfile(val.state.data.picture);
+        setName(val.state.data.name);
+        setEmail(val.state.data.email);
+        setUser(val.state.data.sub);
+        setMemberId(val.state.data.member_id);
+        setauthentication(val.state.oauth);
     }
 
-    // Remove this function early
     function selectedOauth(val) {
         console.log('val',val)
         setauthentication(val);
@@ -61,7 +53,6 @@ const MainPage = () => {
     function CloseBox () {
         setauthentication(false);
     }
-    // Remove this function early
 
     function handleButtonClick  () {
         setOpen(false); // Set open to false to hide the modal
