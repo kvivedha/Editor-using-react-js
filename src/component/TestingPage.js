@@ -5,19 +5,18 @@ function Testing() {
  const [chosenEmoji, setChosenEmoji] = useState(null);
  const onEmojiClick = (event, emojiObject) => {
     setChosenEmoji(emojiObject);
-    console.log('emojiObject',emojiObject.target);
 };
 
 return (
     <div>
-        <h3>GeeksforGeeks Emoji Picker</h3>
+        <h3> Emoji Picker </h3>
         {chosenEmoji ? (
             <span>
                 Your Emoji:
                 <img style={{ width: "15px" }} src={chosenEmoji.target.src} />
             </span>
         ) : (
-            <span>No Emoji</span>
+            <span> No Emoji </span>
         )}
         <Picker onEmojiClick={onEmojiClick} />
     </div>
