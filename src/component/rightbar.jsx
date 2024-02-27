@@ -1,4 +1,3 @@
-// import React, {useEffect, useState} from 'react';
 import React, { useState, useEffect } from 'react';
 import '../Css/modal.css';
 import name_icon from '../image/user.png';
@@ -19,8 +18,6 @@ const RightBar = ({profile, name, email, user, member, selectedOauth, initialIma
     const navigate = useNavigate();
     const [codeValue, setCodeValue] = useState(false);
     const [userId, setUserId] = useState('');
-    // const [userIdVal, setUserIdVal] = useState('');
-
 
     const getUserId = () => {
         selectedOauth(true);
@@ -29,12 +26,11 @@ const RightBar = ({profile, name, email, user, member, selectedOauth, initialIma
 
     useEffect(() => {
         if (window.opener && window.opener !== window) {
-            const code = getCodeFromWindowURL(window.location.href);
-            window.opener.postMessage({'type': 'code', 'code': code}, '*')
-            window.close();
+                const code = getCodeFromWindowURL(window.location.href);
+                window.opener.postMessage({'type': 'code', 'code': code}, '*')
+                window.close();
           }
         window.addEventListener('message', handlePostMessage);
-        // setConnectSso(false);
     },[]);
 
 
@@ -49,31 +45,22 @@ const RightBar = ({profile, name, email, user, member, selectedOauth, initialIma
                     },3000);
                     setCodeValue(true);
                 }
-
         }
-        console.log("hello")
    }
 
    const getUserCredentials  =(code)=> {
     axios.post('http://192.168.1.27:8090/linkedinAPI/getAccesstoken',{
            access_code : code
        }).then((response) => {
-           console.log('response',response);
-           console.log('response 111',response.data.data.member_id);
-
            localStorage.setItem('userIdVal', response.data.data.member_id);
-        //    setUserIdVal(response.data.member_id);
        }).catch((error) => {
-           console.log(error);
            toast.error(error, {style : {background : '#f44336', color: 'white', fontWeight: 'bold'}});
        })
   }
 
-  
-
    function getCodeFromWindowURL (url) {
-    const popupWindowURL = new URL(url);
-    return popupWindowURL.searchParams.get("code");
+        const popupWindowURL = new URL(url);
+        return popupWindowURL.searchParams.get("code");
    }
 
    function ConnectSSO() {
@@ -82,7 +69,6 @@ const RightBar = ({profile, name, email, user, member, selectedOauth, initialIma
             axios.post('http://192.168.1.27:8090/linkedinAPI/connect', {
             }).then((response) => {
                 setConnectSso(response.data);
-                console.log("response" ,response.data);
                 window.open(response.data, "", "width=500,height=700,top=200, left= 600");
             }).catch((error) => {
                 console.log(error);
@@ -91,25 +77,22 @@ const RightBar = ({profile, name, email, user, member, selectedOauth, initialIma
     }
 
     const connectSocialMedia = () => {
-        //  selectedOauth(true);
         if(initialImage == 'linkedin') {
-            // axios.post('http://192.168.1.27:8090/linkedinAPI/getProfileDetails',{
-            //     // o_auth : localStorage.getItem('Auth'),
-            //     userID : localStorage.getItem('userIdVal')
+            axios.post('http://192.168.1.27:8090/linkedinAPI/getProfileDetails',{
+                userID : localStorage.getItem('userIdVal')
 
-            // }).then((response) => {
-            //     if(response.data.status == 'Success') {
-            //         var data = response.data.data;
-            var data = {};
+            }).then((response) => {
+                if(response.data.status == 'Success') {
+                    var data = response.data.data;
                     var popupOpen = true;
                     var oauth = false;
                     selectedType({state : {initialImage, data, popupOpen,oauth}});
-            //     } else {
-            //         toast.error(response.data.message, {style : {background : '#f44336', color: 'white', fontWeight: 'bold'}});
-            //     }
-            // }).catch((error) => {
-            //     console.log('error',error);
-            // })
+                } else {
+                    toast.error(response.data.message, {style : {background : '#f44336', color: 'white', fontWeight: 'bold'}});
+                }
+            }).catch((error) => {
+                console.log('error',error);
+            })
         } else {
             var data = {};
             var popupOpen = true;
