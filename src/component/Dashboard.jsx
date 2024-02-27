@@ -43,7 +43,6 @@ const Dashboard = (params) =>  {
     const [view, setView] = useState(false);
     const [initialImage, setInitialImage] = useState('');
     const [imageLength, setImageLength] = useState(0);
-    // const [imageId, setImageid] = useState([]);
     const [profile, setProfile] = useState();
 
     var Auth = 'AQVAGlv-tne0KuS3xKMM3Ka8fTZKedyFvAByTMRIRqkgKch0ykTqrF0Z-9DUZuNErpbPkvZ-xIw_nc0fLV39H38o3FlxEuT--MoSRJBtjO3XisyqVz9vEcs32jJwBLGhym-JpoXqRQ3ZehGTeVmIxaM22u6f8QPgBARRsuEbsU8trESJ6jiKbwtBVuu5CaJZnkN1NbdN5-jXedzkgFCQV6a-fnrEJ4N7UsfYjsM6_4T6wkwemOfwQSSgt410FI2v3MsY8QMfB-QZaHrZ8R4UBu-QE-MW_9ZCXpnmMTZB85--ip7FxxD2vCQrpihTsfsOB8JStqWV5WygPjITDpfxFccUUTyzOA';
@@ -76,7 +75,6 @@ const Dashboard = (params) =>  {
         evt.preventDefault();
         console.log(text);
         console.log("img",image);
-        // console.log("response.data.data",imageId);
         if(imageLength == 0) {
             axios.post('http://192.168.1.27:8080/linkedinAPI/sendTextMessage',{
                 o_auth : Auth,
@@ -92,7 +90,6 @@ const Dashboard = (params) =>  {
             axios.post('http://192.168.1.27:8080/linkedinAPI/PostImageFeed',{
                 o_auth : Auth,
                 message_text: text,
-                // img_id_list : imageId
             }).then((response) => {
                 setOpen(false);
                 console.log(response);
@@ -122,8 +119,6 @@ const Dashboard = (params) =>  {
             message_text: text
         }
         formdata.append('json',JSON.stringify(data));
-        
-        console.log('image',image)
         setView(true);
 
         axios.post('http://192.168.1.27:8080/linkedinAPI/RegisterMediaData', formdata, {
@@ -132,13 +127,8 @@ const Dashboard = (params) =>  {
             }
         }).then((response) => {
             console.log("response",response);
-            // setImageid(response.data.data);
-            console.log("response1",response.data.data);
         })
         .catch(err => console.log(err));
-        console.log('formdata', formdata);
-
-        console.log('Selected File:', selectedFile);
       };
 
       const handleVideoChange = (event) => {
@@ -148,7 +138,6 @@ const Dashboard = (params) =>  {
       }
 
       const handleClick = (type) => {
-        console.log("type",type);
         if(type == 'img') {
             imageInputRef.current.click();
         } else {
@@ -211,11 +200,6 @@ const Dashboard = (params) =>  {
 
                         <i className="fa fa-smile-o"></i>
                         <i className="fa fa-file-text-o" ></i>
-                        
-
-                        {/* <div>
-                            <EmojiPicker />
-                        </div> */}
 
                         <button className='btn btn-primary' onClick={handlePost}>
                             <span>Post</span>
